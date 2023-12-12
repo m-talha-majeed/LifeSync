@@ -1,0 +1,862 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>LifeSync</title>
+    <!-- Favicon icon -->
+    <!-- Pignose Calender -->
+    <link href="/css/pignose.calendar.min.css" rel="stylesheet">
+    <!-- Chartist -->
+    <link rel="stylesheet" href="/css/chartist.min.css">
+    <link rel="stylesheet" href="/css/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom Stylesheet -->
+    <link href="/css/Homepage.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+</head>
+
+<body>
+
+<!--*******************
+    Preloader start
+********************-->
+<div id="preloader">
+    <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+        </svg>
+    </div>
+</div>
+<!--*******************
+    Preloader end
+********************-->
+<!--**********************************
+    Main wrapper start
+***********************************-->
+<div id="main-wrapper">
+
+    <!--**********************************
+        Nav header start
+    ***********************************-->
+
+    <nav style="position:fixed;" class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div style="margin-left:100px;" class="container">
+            <a style="color: #3498db!important;" class="navbar-brand" href="#page-top">LifeSync</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars ms-1"></i>
+            </button>
+            <div style="justify-content:right;" class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+
+                    <li class="nav-item"><a class="nav-link" href="/LifeSync/Homepage">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/LifeSync/Profile">Profile</a></li>
+
+
+
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+
+
+
+    <!--**********************************-->
+
+    <!--**********************************
+        Sidebar end
+    ***********************************-->
+    <!--**********************************
+        Content body start
+    ***********************************-->
+<br/><br/><br/><br/><br/><br/><br/>
+    <div style="margin-top:50px;"   class="container custom-container4">
+        <div class="row justify-content-center">
+            <div class="content-body mx-auto px-4">
+                <div class="row custom-row">
+                    <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6" style="margin-left: -15px;">
+                        <div class="card custom-finances-card">
+                            <div class="card-body">
+                                <span class="mr-1" data-toggle="modal" data-target="#editfinancesmodal"><i
+                                        class="fa fa-edit fa-lg" aria-hidden="true"></i></span>
+                                <div class="chart-wrapper mb-4">
+
+                                    <div class="px-4 pt-4 d-flex justify-content-between">
+                                        <div>
+                                            <br/>
+                                            <h5><strong>Finances</strong></h5>
+                                        </div>
+                                        <br/><br/><br/>
+                                    </div>
+                                </div>
+                                <div class="px-4 pb-4">
+                                    <div th:object="${model}" id="financeContent">
+                                        <div>
+                                            <h6 class="financeTitle" contenteditable="false">
+                                                <strong>Expenses</strong></h6>
+                                            <p class="dynamicContent" id="expenses" th:text="${expenses}"
+                                               contenteditable="false"></p>
+                                        </div>
+                                        <div>
+                                            <h6 class="financeTitle" contenteditable="false">
+                                                <strong>Budget</strong></h6>
+                                            <p class="dynamicContent" id="budget" th:text="${budget}"
+                                               contenteditable="false"></p>
+                                        </div>
+                                        <div>
+                                            <h6 class="financeTitle" contenteditable="false">
+                                                <strong>Income</strong></h6>
+                                            <p class="dynamicContent" id="income" th:text="${income}"
+                                               contenteditable="false"></p>
+                                        </div>
+                                        <div>
+                                            <h6 class="financeTitle" contenteditable="false">
+                                                <strong>Savings</strong></h6>
+                                            <p class="dynamicContent" id="savings" th:text="${savings}"
+                                               contenteditable="false"></p>
+                                        </div>
+                                        <div>
+                                            <h6 class="financeTitle" contenteditable="false">
+                                                <strong>Investment</strong></h6>
+                                            <p class="dynamicContent" id="investment" th:text="${investments}"
+                                               contenteditable="false">1500</p>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <button class="btn btn-sm btn-primary save-btn"
+                                            style="display: none; background-color:#000; font-size:15px; color:#fff; border-color:#000; margin-top:10px;"
+                                            onclick="saveChanges()">
+                                        <strong>Save</strong>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-4 col-lg-6 col-sm-6 col-xxl-6">
+                        <div class="card">
+                            <a href="/LifeSync/Notes">
+                                <button class="btn btn-sm btn-secondary"
+                                        style="background-color:#7a99d8; border-color:#fff; position: absolute; top: 0; right: 0; margin: 10px;">
+                                    <strong>Show More</strong>
+                                </button>
+                            </a>
+                            <div class="card-body">
+                                <h4 class="card-title"><strong>Notes</strong></h4>
+                                <div th:each="note : ${notes}" id="activity">
+                                    <div class="media border-bottom-1 pt-3 pb-3">
+                                        <div class="media-body">
+                                            <h5 th:text="${note.title}"></h5>
+                                            <p class="mb-0" th:text="${note.description}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:if="${#strings.isEmpty(token)}">
+                            <div id="authenticateMusic" class="col-lg-6 col-sm-8">
+                                <div style="width: 360px!important;" class="card custom-second-card">
+                                    <div style="padding:0!important;" class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="mt-3 mb-1"><strong>Music </strong><i class="fa fa-music" aria-hidden="true"
+                                                                                            style="margin-left: 5px;"></i></h5>
+                                            <br/><br/><br/>
+                                            <a href="/LifeSync/MusicPlayer">
+                                                <button style="width:200px; background-color:#7a99d8; border-color:#fff; height:50px; font-size:20px;">
+                                                    <strong>Authenticate User</strong></button>
+                                            </a>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:unless="${#strings.isEmpty(token)}">
+                            <div id="authenticmusic">
+                                <div style="width: 360px!important;" class="card custom-second-card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="mt-3 mb-1"><strong>Music</strong><i class="fa fa-music" aria-hidden="true"
+                                                                                           style="margin-left: 5px;"></i></h5>
+                                            <br/><br/>
+                                            <div class="mt-3">
+                                                <a href="/LifeSync/Previous">
+                                                    <button class="btn btn-sm btn-secondary"
+                                                            style="background-color: #fff; border-color:#fff;">
+                                                        <i class="fa fa-backward fa-2x" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                                <span style="margin: 0 5px;"></span>
+                                                <a href="/LifeSync/PausePlay">
+                                                    <button class="btn btn-sm btn-secondary"
+                                                            style="background-color: #fff; border-color:#fff;">
+                                                        <i class="fa fa-pause fa-2x" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                                <span style="margin: 0 5px;"></span>
+                                                <a href="/LifeSync/Next">
+                                                    <button class="btn btn-sm btn-secondary"
+                                                            style="background-color: #fff; border-color:#fff;" onclick="">
+                                                        <i class="fa fa-forward fa-2x" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                            </div>
+                                            <!-- <a href="javascript:void()" class="btn btn-sm btn-warning">Send Message</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="col-xl-4 col-lg-12 col-sm-12 col-xxl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <a href="/LifeSync/RefreshLocation">
+                                    <button class="btn btn-sm btn-secondary"
+                                            style="background-color: #fff; border-color:#fff; position: absolute; top: 0; right: 0; margin: 10px;"
+                                            onclick="">
+                                        <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
+                                    </button>
+                                </a>
+                                <div class="text-center">
+                                    <h2 class="card-title mb-0"><strong>Location</strong><i class="fa fa-map-marker"
+                                                                                            aria-hidden="true"
+                                                                                            style="margin-left:5px;"></i>
+                                    </h2><br/>
+
+                                    <div th:object="${model}" class="weather-info">
+                                        <div class="w-info">
+                                            <p th:text="${ip}">IP </p>
+                                        </div>
+                                        <div th:object="${model}" class="w-info">
+                                            <p th:text="${city}">City </p>
+                                            <p th:text="${region}">Region</p>
+                                            <p th:text="${country}">Country</p>
+                                        </div>
+                                        <div th:object="${model}" class="w-info">
+                                            <p th:text="${latitude}">Latitude</p>
+                                            <p th:text="${longitude}">Longitude</p>
+                                        </div>
+                                        <div th:object="${model}" class="w-info">
+                                            <p th:text="${postal}">Postal</p>
+                                            <p th:text="${timezone}">Timezone</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card custom-second-card">
+                            <div class="card-body">
+                                <a href="/LifeSync/UpdateWeather">
+                                    <button class="btn btn-sm btn-secondary"
+                                            style="background-color: #fff; border-color:#fff; position: absolute; top: 0; right: 0; margin: 10px;"
+                                            onclick="">
+                                        <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
+                                    </button>
+                                </a>
+                                <div class="text-center">
+
+                                    <h5 class="mt-3 mb-1"><strong>Weather </strong><i class='fas fa-cloud-sun'
+                                                                                      aria-hidden="true"
+                                                                                      style="margin-left: 5px;"></i></h5><br/>
+
+                                    <div class="weather-info">
+                                        <div th:object="${model}" class="w-info">
+                                            <p th:text="${wCity}">wCity</p>
+                                            <p th:text="${wRegion}">wRegion</p>
+                                            <p th:text="${wCountry}">wCountry</p>
+                                        </div>
+                                        <div th:object="${model}" class="w-info">
+                                            <p th:text="${lastUpdated}">LastUpdated</p>
+                                        </div>
+                                        <div th:object="${model}" class="w-info">
+                                            <p th:text="${temperatureC}">TemperatureC</p>
+                                            <p th:text="${temperatureF}">TemperatureF</p>
+                                        </div>
+                                        <div th:object="${model}" class="w-info">
+                                            <p th:text="${weatherCondition}">weatherCondition</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- #/ container -->
+    </div>
+    <div class="container custom-container1" style="margin-bottom:10px;">
+        <div class="row justify-content-center">
+            <div class="content-body mx-auto">
+                <br/>
+                <div th:if="${NewsShow}">
+                    <div id="newsSection">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <br/>
+                                <br/><br/>
+                                <div class="card custom-news-card">
+                                    <h1 style="color: #061878; margin-left:34px; margin-top:34px;"><strong>News</strong><i
+                                            class="fa fa-newspaper-o" aria-hidden="true" style="margin-left: 10px;"></i>
+                                    </h1>
+                                    <div class="card-body text-center">
+
+                                        <div th:each="entry: ${articlesInfo}">
+                                            <div class="media border-bottom-1 pt-3 pb-3">
+
+                                                <div class="media-body">
+                                                    <h5 th:text="${entry.key}" style="white-space:pre-wrap;">title</h5>
+                                                    <a th:href="${entry.value}"><p th:text="${entry.value}"
+                                                                                   style="white-space:pre-wrap;"
+                                                                                   class="mb-0">url</p>
+                                                    </a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br/><br/>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${NewsShow}">
+                    <div id="inputSection" class="col-lg-12">
+                        <div class="card custom-news-card">
+                            <h1 style="color: #061878; margin-left:34px; margin-top:34px;"><strong>News</strong><i
+                                    class="fa fa-newspaper-o" aria-hidden="true" style="margin-left: 10px;"></i></h1>
+                            <div class="card-body text-center">
+
+                                <form id="newsForm" action="/LifeSync/NewsGetter" method="post">
+                                    <br/>
+                                    <br/><br/>
+                                    <label for="country" class="d-block" style="font-weight:bold; font-size:26px;">Country </label>
+                                    <div class="input-group mb-3 mx-auto" style="max-width: 340px;">
+                                        <select id="country" class="form-control" name="country">
+                                            <option value="" selected disabled>Select Country</option>
+
+                                            <option value="au">Australia</option>
+                                            <option value="be">Belgium</option>
+                                            <option value="ca">Canada</option>
+                                            <option value="cn">China</option>
+                                            <option value="eg">Egypt</option>
+                                            <option value="fr">France</option>
+                                            <option value="de">Germany</option>
+                                            <option value="id">Indonesia</option>
+                                            <option value="in">India</option>
+                                            <option value="it">Italy</option>
+                                            <option value="jp">Japan</option>
+                                            <option value="ma">Morrocco</option>
+                                            <option value="mx">Mexico</option>
+                                            <option value="my">Malaysia</option>
+                                            <option value="nl">Netherlands</option>
+                                            <option value="no">Norway</option>
+                                            <option value="nz">New Zealand</option>
+                                            <option value="ru">Russia</option>
+                                            <option value="sa">Saudi Arabia</option>
+                                            <option value="ch">Swizerland</option>
+                                            <option value="za">South Africa</option>
+                                            <option value="th">Thailand</option>
+                                            <option value="tr">Turkey</option>
+                                            <option value="ae">United Arab Emirates</option>
+                                            <option value="us">United States of America</option>
+                                            <option value="gb">United Kingdom</option>
+
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <br/>
+                                    <label class="d-block" style="font-weight:bold; font-size:26px;">Type</label>
+                                    <div class="input-group mb-3 mx-auto" style="max-width: 340px;">
+                                        <select id="type" class="form-control" name="type">
+                                            <option value="" selected disabled>Select Type</option>
+                                            <option value="business">Business</option>
+                                            <option value="entertainment">Entertainment</option>
+                                            <option value="general">General</option>
+                                            <option value="health">Health</option>
+                                            <option value="science">Science</option>
+                                            <option value="sports">Sports</option>
+                                            <option value="technology">Technology</option>
+
+                                        </select>
+                                    </div>
+                                    <br/><br/>
+                                    <button type="submit"
+                                            style="width:140px; background-color:#7a99d8; border-color:#fff; height:40px; font-size:16px;">
+                                        <strong>Submit</strong></button>
+                                </form>
+                                <br/>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container custom-container3">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-sm-8">
+                <div style="width:526px!important;" class="card custom-second-card">
+                    <div class="card-body" th:object="${model}">
+                        <a href="/LifeSync/grocery">
+                            <button class="btn btn-sm btn-secondary"
+                                    style="background-color:#7a99d8; border-color:#fff; position: absolute; top: 0; right: 0; margin: 10px;"
+                            >
+                                <strong>Show List</strong>
+                            </button>
+                        </a>
+                        <h5><strong>Grocery</strong> <i class="fas fa-shopping-cart"
+                                                        style="margin-left:5px; font-size:20px; "></i></h5><br/><br/>
+
+                        <h4 th:text="${GroceryTitle}">Title</h4>
+                        <h4 th:text="${GroceryDesc}">Description</h4>
+                        <h4 th:text="${GroceryType}">Type</h4>
+                        <h4 th:text="${GroceryAmount}">Amount</h4>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6 col-sm-8">
+                <div style="width:526px!important;" class="card custom-second-card">
+                    <div class="card-body">
+                        <a href="/LifeSync/ViewActivities">
+                            <button class="btn btn-sm btn-secondary"
+                                    style="background-color:#7a99d8; border-color:#fff; position: absolute; top: 0; right: 0; margin: 10px;">
+                                <strong>Show More</strong>
+                            </button>
+                        </a>
+                        <div class="card-body px-0">
+                            <h4 class="card-title px-4 mb-3"><strong>Activities</strong></h4>
+                            <div class="todo-list">
+                                <div class="tdl-holder">
+                                    <div class="tdl-content">
+                                        <ul id="todo_list">
+                                            <li th:each="activity:${activity}">
+                                                <label>
+                                                    <input type="checkbox"><i></i>
+                                                    <span th:text="${activity.name}"></span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="container custom-container7">
+        <div class="row justify-content-center">
+
+            <div class="content-body mx-auto" style="min-height:40px!important">
+                <div th:if="${ShowClass}">
+                    <div id="assignment">
+                        <br/><br/>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <h1 style="margin-top:34px; margin-left:34px;"><strong>Assignments</strong></h1>
+                                            <br/><br/>
+                                            <section id="testimonials" class="testimonials">
+                                                <div class="container">
+                                                    <header class="section-header">
+                                                    </header>
+                                                    <div class="testimonials-slider swiper" data-aos="fade-up"
+                                                         data-aos-delay="200">
+                                                        <div th:each="course:${CourseData}" class="swiper-wrapper">
+
+                                                            <div class="swiper-slide">
+                                                                <div class="testimonial-item">
+
+                                                                    <br/><br/><br/>
+                                                                    <p th:text="${course.courseTitle}">
+                                                                        Subject
+                                                                    </p>
+                                                                    <h4 th:text="${course.courseWorkDate}">Submission Date</h4>
+                                                                    <h4 th:text="${course.courseWorkTime}">Submission Time</h4>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="swiper-pagination"></div>
+                                                    </div>
+
+                                                </div>
+
+                                            </section><!-- End Testimonials Section -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${ShowClass}">
+                    <div id="authenticateAssignment" class="col-lg-14">
+                        <div class="card custom-news-card">
+                            <h1 style="margin-top:34px; margin-left:34px;"><strong>Assignments</strong></h1><br/><br/>
+                            <div class="card-body text-center"><br/><br/><br/> <br/><br/><br/> <br/><br/><br/>
+                                <a href="/LifeSync/ClassroomCredential">
+                                    <button style="width:200px; background-color:#7a99d8; border-color:#fff; height:50px; font-size:20px;">
+                                        <strong>Authenticate User</strong></button>
+                                </a>
+                                <br/><br/><br/> <br/><br/><br/> <br/><br/><br/> <br/><br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div style="min-height:100vh!important;" class="container custom-container2">
+        <div class="row justify-content-center">
+            <div class="content-body mx-auto">
+                <div th:if="${Fitness}">
+                    <div id="FitnessSection">
+                        <br/><br/>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div style="min-height:100%; " class="card custom-fitness-card">
+                                    <h1 style="margin-top:34px; margin-left:34px;"><strong>Fitness</strong></h1>
+                                    <br/><br/>
+                                    <div th:each="exercise : ${Exercise}"  class="card-body text-center">
+                                        <div  class="media border-bottom-1 pt-3 pb-3">
+                                            <div class="media-body">
+                                                <h5>Title: <span th:text="${exercise.name}"></span></h5>
+                                                <p class="mb-0">Type: <span th:text="${exercise.type}"></span></p>
+                                                <p class="mb-0">Muscle: <span th:text="${exercise.muscle}"></span>
+                                                </p>
+                                                <p class="mb-0">Equipment: <span
+                                                        th:text="${exercise.equipment}"></span>
+                                                </p>
+                                                <p class="mb-0">Difficulty: <span
+                                                        th:text="${exercise.difficulty}"></span></p>
+                                                <p style="white-space: pre-wrap!important;" class="mb-0">Instructions: <span
+                                                        th:text="${exercise.instructions}"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${Fitness}">
+                    <div id="inputSection1" class="col-lg-12">
+                        <div style="min-height: 100%; " class="card custom-fitness-card">
+                            <h1 style="margin-top:34px; margin-left:34px;"><strong>Fitness</strong></h1><br/><br/>
+                            <div class="card-body text-center">
+                                <form id="FitnessForm" action="/LifeSync/FitnessGetter" method="post">
+                                    <br/><br>
+                                    <select id="muscle" class="mx-auto d-block"
+                                            style="width: 60%; padding: 8px; box-sizing: border-box;">
+                                        <option value="" selected disabled>Select Muscle</option>
+                                        <option value="abdominals">Abdominals</option>
+                                        <option value="abductors">Abductors</option>
+                                        <option value="adductors">Adductors</option>
+                                        <option value="biceps">Biceps</option>
+                                        <option value="calves">Calves</option>
+                                        <option value="chest">Chest</option>
+                                        <option value="forearms">Forearms</option>
+                                        <option value="glutes">Glutes</option>
+                                        <option value="hamstrings">Hamstrings</option>
+                                        <option value="lats">Lats</option>
+                                        <option value="lower_back">Lower-Back</option>
+                                        <option value="middle_back">Middle-Back</option>
+                                        <option value="neck">Neck</option>
+                                        <option value="quadriceps">Quadriceps</option>
+                                        <option value="traps">Traps</option>
+                                        <option value="tricep">Triceps</option>
+                                    </select>
+
+                                    <br/><br/>
+
+                                    <button type="submit"
+                                            style="width:200px; background-color:#7a99d8; border-color:#fff; height:50px; font-size:20px;">
+                                        <strong>Submit</strong></button>
+                                </form>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+    <!--**********************************
+        Content body end
+    ***********************************-->
+    <!--**********************************
+        Footer start
+    ***********************************-->
+    <div class="footer">
+        <div class="copyright text-center">
+            <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">LifeSync</a> 2023
+            </p>
+        </div>
+    </div>
+
+
+<div class="modal fade" id="editfinancesmodal" tabindex="-1" role="dialog" aria-labelledby="addfinancessmodalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white" style="background-color: #7a99d8 !important;">
+                <h5 class="modal-title text-white" style=""><strong>Edit Finances</strong></h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editNotes" action="/LifeSync/Finances" method="post">
+                    <div class="form-group">
+                        <label for="editexp">Expenses</label>
+                        <input type="text" class="form-control" name="editexp" id="editexp" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editbdg">Budget</label>
+                        <input type="text" class="form-control" name="editbdg" id="editbdg" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editinc">Income</label>
+                        <input type="text" class="form-control" name="editinc" id="editinc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editsav">Savings</label>
+                        <input class="form-control" name="editsav" id="editsav" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editinvest">Investments</label>
+                        <input class="form-control" id="editinvest" name="editinvest" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--**********************************
+    Main wrapper end
+***********************************-->
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="/js/common.min.js"></script>
+<script src="/js/custom.min.js"></script>
+<script src="/js/settings.js"></script>
+<script src="/js/gleek.js"></script>
+<script src="/js/styleSwitcher.js"></script>
+
+<!-- Circle progress -->
+<script src="/js/circle-progress.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script>window.addEventListener('DOMContentLoaded', event => {
+
+    // Navbar shrink function
+    var navbarShrink = function () {
+        const navbarCollapsible = document.body.querySelector('#mainNav');
+        if (!navbarCollapsible) {
+            return;
+        }
+        if (window.scrollY === 0) {
+            navbarCollapsible.classList.remove('navbar-shrink')
+        } else {
+            navbarCollapsible.classList.add('navbar-shrink')
+        }
+
+    };
+
+    // Shrink the navbar
+    navbarShrink();
+
+    // Shrink the navbar when page is scrolled
+    document.addEventListener('scroll', navbarShrink);
+
+    //  Activate Bootstrap scrollspy on the main nav element
+    const mainNav = document.body.querySelector('#mainNav');
+    if (mainNav) {
+        new bootstrap.ScrollSpy(document.body, {
+            target: '#mainNav',
+            rootMargin: '0px 0px -40%',
+        });
+    };
+
+    // Collapse responsive navbar when toggler is visible
+    const navbarToggler = document.body.querySelector('.navbar-toggler');
+    const responsiveNavItems = [].slice.call(
+        document.querySelectorAll('#navbarResponsive .nav-link')
+    );
+    responsiveNavItems.map(function (responsiveNavItem) {
+        responsiveNavItem.addEventListener('click', () => {
+            if (window.getComputedStyle(navbarToggler).display !== 'none') {
+                navbarToggler.click();
+            }
+        });
+    });
+
+});</script>
+
+
+
+<!-- Datamap -->
+
+<script>
+    function movetoNews(event) {
+        var newsF = document.getElementById("newsForm");
+        newsF.action = "/LifeSync/NewsGetter";
+        newsF.method = "post";
+        newsF.submit();
+        event.preventDefault();
+
+        document.getElementById("inputSection").style.display = "none";
+        document.getElementById("newsSection").style.display = "block";
+
+        if (!window.newsSwiper) {
+            newsSwiper = new Swiper('.testimonials-slider', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+            });
+        }
+
+        return false;
+    }
+
+    document.getElementById('newsForm').addEventListener('submit', movetoNews);
+</script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+
+<script>
+    function movetoAssignment() {
+
+        document.getElementById("authenticateAssignment").style.display = "none";
+        document.getElementById("assignment").style.display = "block";
+
+        if (!window.assignmentSwiper) {
+            assignmentSwiper = new Swiper('.testimonials-slider', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+            });
+        }
+    }
+</script>
+
+
+<script>
+    function EditFinances() {
+        var editf = document.querySelectorAll('.dynamicContent');
+
+        editf.forEach(function (content) {
+            content.contentEditable = true;
+        });
+
+        var saveB = document.querySelector('.save-btn');
+        saveB.style.display = 'block';
+    }
+
+    function saveChanges() {
+        var editf = document.querySelectorAll('.dynamicContent');
+
+        editf.forEach(function (content) {
+            content.contentEditable = false;
+        });
+
+        var saveB = document.querySelector('.save-btn');
+        saveB.style.display = 'none';
+
+        alert('Finances Edited Successfully!');
+    }
+</script>
+<!-- <script src="./js/dashboard/dashboard-1.js"></script>-->
+
+</body>
+
+</html>
